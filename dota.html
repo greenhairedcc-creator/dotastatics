@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Dota 2 Live Dashboard</title>
+    <style>
+        body { background: #1b1e21; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; }
+        
+        /* Кнопка меню (три полоски) */
+        .menu-btn { position: fixed; top: 20px; left: 20px; cursor: pointer; z-index: 100; padding: 10px; background: #2a2d31; border-radius: 8px; border: 1px solid #333; }
+        .bar { width: 20px; height: 2px; background: #a3d139; margin: 4px 0; }
+
+        /* Боковое меню */
+        .sidebar { position: fixed; left: -300px; top: 0; width: 260px; height: 100%; background: #2a2d31; transition: 0.3s; padding: 80px 20px; box-shadow: 5px 0 15px rgba(0,0,0,0.5); z-index: 99; }
+        .sidebar.active { left: 0; }
+        
+        input { width: 100%; padding: 12px; background: #1b1e21; border: 1px solid #a3d139; color: white; border-radius: 5px; box-sizing: border-box; margin-bottom: 10px; outline: none; }
+        button { width: 100%; padding: 12px; background: #a3d139; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; color: #1b1e21; transition: 0.2s; }
+        button:hover { background: #8db331; transform: translateY(-2px); }
+
+        /* Основная карточка */
+        .container { display: flex; justify-content: center; align-items: center; height: 100vh; background: radial-gradient(circle, #23272a 0%, #1b1e21 100%); }
+        .card { background: #23272a; padding: 40px; border-radius: 25px; width: 320px; text-align: center; border: 1px solid #333; box-shadow: 0 30px 60px rgba(0,0,0,0.6); position: relative; }
+        .card::before { content: ""; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, #a3d139, transparent); border-radius: 27px; z-index: -1; opacity: 0.3; }
+        
+        #status { color: #a3d139; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .winrate { font-size: 64px; font-weight: 900; margin: 10px 0; color: #fff; text-shadow: 0 0 20px rgba(163,209,57,0.2); }
+        .stats { display: flex; justify-content: space-around; margin-top: 30px; background: #2a2d31; padding: 15px; border-radius: 15px; }
+        .stat-label { font-size: 10px; color: #666; margin-bottom: 5px; }
+        .win { color: #a3d139; font-size: 20px; font-weight: bold; }
+        .loss { color: #ff4e50; font-size: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- Кнопка меню -->
+    <div class="menu-btn" onclick="toggleMenu()">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+
+    <!-- Боковая панель -->
+    <div class="sidebar" id="sidebar">
+        <h3 style="margin-top: 0;">Настройки</h3>
+        <label style="font-size: 12px; color: #888;">Введите ваш Steam32 ID:</label>
+        <input type="text" id="playerId" placeholder="818388124" value="818388124">
+        <button onclick="updateStats()">ОБНОВИТЬ ДАННЫЕ</button>
+        <p style="font-size: 11px; color: #555; margin-top: 30px;">Профиль должен быть открыт в настройках Dota 2</p>
+    </div>
+
+    <!-- Основной экран -->
+    <div class="container">
+        <div class="card">
+            <div id="status">Dota 2 Profile</div>
+            <p id="displayId" style="color: #555; font-size: 11px; margin: 0;">ID: Не выбран</p>
+            <div class="winrate" id="winrate">--%</div>
+            <div class="stats">
+                <div><div class="stat-label">ПОБЕДЫ</div><div class="win" id="wins">-</div></div>
+                <div><div class="stat-label">ПОРАЖЕНИЯ</div><div class="loss" id="losses">-</div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function toggleMenu() {
+        document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    async function updateStats() {
+        const id = document.getElementById('playerId').value;
+        if (!id) return;
+
+        const statusLabel = document.getElementById('status');
+        statusLabel.innerText = "ЗАГРУЗКА...";
+        statusLabel.style.color = "#888";
+        
+        try {
+            // Новый прокси, который реже падает
+            const response = await fetch(`https://corsproxy.io{id}/wl`);
+            
+            if (!response.ok) throw new Error("Server error");
+            
+            const data = await response.json();
+
+            if (!data || (data.win === 0 && data.lose === 0)) {
+                throw new Error("No data");
+            }
+
+            const wins = data.win;
+            const losses = data.lose;
+            const wr = ((wins / (wins + losses)) * 100).toFixed(2);
+
+            document.getElementById('wins').innerText = wins;
+            document.getElementById('losses').innerText = losses;
+            document.getElementById('winrate').innerText = wr + "%";
+            document.getElementById('displayId').innerText = "ID: " + id;
+            
+            statusLabel.innerText = "ДАННЫЕ ОБНОВЛЕНЫ";
+            statusLabel.style.color = "#a3d139";
+            
+        } catch (err) {
+            console.error("Ошибка:", err);
+            statusLabel.innerText = "ОШИБКА API";
+            statusLabel.style.color = "#ff4e50";
+        }
+    }
+
+    // Загрузка при старте
+    window.onload = updateStats;
+</script>
+</body>
+</html>
