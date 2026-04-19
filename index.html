@@ -20,21 +20,19 @@
             margin: 0; 
             padding: 0;
             overflow-x: hidden;
-            /* Мягкие блики на фоне */
             background-image: 
                 fixed radial-gradient(circle at 15% 15%, rgba(0, 212, 255, 0.08) 0%, transparent 40%),
                 fixed radial-gradient(circle at 85% 85%, rgba(112, 0, 255, 0.08) 0%, transparent 40%);
             transition: background 0.5s ease;
         }
 
-        /* Кнопка меню */
+        /* Меню */
         .menu-btn { 
             position: fixed; top: 25px; left: 25px; cursor: pointer; z-index: 1001; 
             padding: 12px; background: rgba(255,255,255,0.05); 
             border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(10px); transition: 0.3s;
         }
-        .menu-btn:hover { border-color: var(--main-color); transform: scale(1.05); }
         .bar { width: 20px; height: 2px; background: var(--main-color); margin: 4px 0; border-radius: 2px; }
 
         /* Сайдбар */
@@ -43,57 +41,28 @@
             background: #111418; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
             padding: 100px 25px 30px; box-shadow: 20px 0 50px rgba(0,0,0,0.8); 
             z-index: 1000; border-right: 1px solid rgba(255,255,255,0.05);
-            box-sizing: border-box; overflow-y: auto;
+            box-sizing: border-box;
         }
         .sidebar.active { left: 0; }
         
         .label { font-size: 10px; color: #5c6673; text-transform: uppercase; letter-spacing: 2px; margin: 20px 0 8px; display: block; font-weight: 700; }
-
-        input { 
-            width: 100%; padding: 12px; background: #080a0c; border: 1px solid #2a2e38; 
-            color: white; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none;
-        }
+        input { width: 100%; padding: 12px; background: #080a0c; border: 1px solid #2a2e38; color: white; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none; }
         input:focus { border-color: var(--main-color); }
 
-        .btn { 
-            width: 100%; padding: 12px; border: none; font-weight: 700; cursor: pointer; 
-            border-radius: 8px; transition: 0.3s; margin-bottom: 10px; text-transform: uppercase; font-size: 11px;
-        }
-        .btn-data { background: var(--main-color); color: #080a0c; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2); }
+        .btn { width: 100%; padding: 12px; border: none; font-weight: 700; cursor: pointer; border-radius: 8px; transition: 0.3s; margin-bottom: 10px; text-transform: uppercase; font-size: 11px; }
+        .btn-data { background: var(--main-color); color: #080a0c; }
         .btn-style { background: transparent; color: var(--main-color); border: 1px solid var(--main-color); }
-        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
 
-        /* Основная карточка */
+        /* Карточка */
         section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-
-        .card { 
-            background: var(--card-color); padding: 50px 40px; border-radius: 35px; 
-            width: 320px; text-align: center; border: 1px solid rgba(255,255,255,0.05); 
-            backdrop-filter: blur(20px); box-shadow: 0 40px 100px rgba(0,0,0,0.6);
-            transition: 0.3s;
-        }
-        .card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.1); }
-        
-        .winrate { 
-            font-size: 76px; font-weight: 900; margin: 10px 0; 
-            background: linear-gradient(to bottom, #fff 50%, #5c6673);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .card { background: var(--card-color); padding: 50px 40px; border-radius: 35px; width: 320px; text-align: center; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px); box-shadow: 0 40px 100px rgba(0,0,0,0.6); }
+        .winrate { font-size: 76px; font-weight: 900; margin: 10px 0; background: linear-gradient(to bottom, #fff 50%, #5c6673); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .stats-grid { display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 20px; margin-top: 20px; }
-        .win { color: var(--main-color); font-size: 24px; font-weight: 800; text-shadow: 0 0 15px rgba(0, 212, 255, 0.3); }
+        .win { color: var(--main-color); font-size: 24px; font-weight: 800; }
         .loss { color: #ff4e64; font-size: 24px; font-weight: 800; }
 
-        /* Плашки описания */
-        .info-container { width: 90%; max-width: 600px; padding-bottom: 100px; }
-        .info-box { 
-            background: rgba(255,255,255,0.02); padding: 35px; border-radius: 25px; 
-            margin: 30px 0; border: 1px solid rgba(255,255,255,0.05); 
-            opacity: 0; transform: translateY(30px); transition: 0.8s;
-        }
+        .info-box { background: rgba(255,255,255,0.02); padding: 35px; border-radius: 25px; margin: 30px auto; border: 1px solid rgba(255,255,255,0.05); width: 90%; max-width: 600px; opacity: 0; transform: translateY(30px); transition: 0.8s; }
         .info-box.reveal { opacity: 1; transform: translateY(0); }
-        h3 { color: var(--main-color); margin-top: 0; }
-        p { color: #889297; line-height: 1.6; font-size: 15px; }
-
     </style>
 </head>
 <body>
@@ -103,44 +72,32 @@
     </div>
 
     <div class="sidebar" id="sidebar">
-        <h2 style="margin-top: 0; font-size: 22px;">DASHBOARD</h2>
-        
         <span class="label">Identity</span>
-        <input type="text" id="playerId" value="818388124" placeholder="Steam32 ID">
+        <input type="text" id="playerId" value="818388124">
         <button class="btn btn-data" onclick="updateStats()">Sync Statistics</button>
         
         <span class="label">Appearance</span>
-        <label style="font-size: 10px; color: #555;">Accent Color</label>
-        <input type="color" id="inputMainColor" value="#00d4ff" style="height:40px; padding:2px; cursor:pointer; margin-bottom: 10px; width: 100%; border: none; background: none;">
-        
-        <label style="font-size: 10px; color: #555;">Background Color</label>
-        <input type="color" id="inputBgColor" value="#0c0f12" style="height:40px; padding:2px; cursor:pointer; margin-bottom: 20px; width: 100%; border: none; background: none;">
-        
-        <button class="btn btn-style" onclick="applyStyles()">Apply Design</button>
+        <input type="color" id="inputMainColor" value="#00d4ff" style="width:100%; height:40px; border:none; background:none; cursor:pointer">
+        <input type="color" id="inputBgColor" value="#0c0f12" style="width:100%; height:40px; border:none; background:none; cursor:pointer; margin-top:10px">
+        <button class="btn btn-style" style="margin-top:20px" onclick="applyStyles()">Apply Design</button>
     </div>
 
     <section id="hero">
         <div class="card">
-            <div id="status" style="font-size: 11px; letter-spacing: 3px; color: var(--main-color); font-weight: 800; text-transform: uppercase;">Analytics Active</div>
+            <div id="status" style="font-size: 11px; letter-spacing: 3px; color: var(--main-color); font-weight: 800; text-transform: uppercase;">Direct Connection</div>
             <div class="winrate" id="wr">--%</div>
             <div class="stats-grid">
-                <div><div style="font-size: 10px; color: #5c6673; font-weight: 700;">WINS</div><div class="win" id="w">-</div></div>
-                <div><div style="font-size: 10px; color: #5c6673; font-weight: 700;">LOSSES</div><div class="loss" id="l">-</div></div>
+                <div><div style="font-size: 10px; color: #5c6673;">WINS</div><div class="win" id="w">-</div></div>
+                <div><div style="font-size: 10px; color: #5c6673;">LOSSES</div><div class="loss" id="l">-</div></div>
             </div>
         </div>
         <p style="margin-top: 40px; color: #5c6673; font-size: 12px; letter-spacing: 2px;">SCROLL DOWN ▼</p>
     </section>
 
     <section id="details">
-        <div class="info-container">
-            <div class="info-box">
-                <h3>Зачем это нужно?</h3>
-                <p>Этот проект создан для тех, кто хочет видеть свою реальную статистику без лишнего визуального шума. Мы подключаемся напрямую к данным, чтобы вы могли анализировать свой прогресс в один клик.</p>
-            </div>
-            <div class="info-box">
-                <h3>Вайб-кодинг</h3>
-                <p>Весь интерфейс построен на современных технологиях Glassmorphism. Это сочетание прозрачности, размытия и мягких теней, которое создает ощущение глубины и премиальности.</p>
-            </div>
+        <div class="info-box">
+            <h3>Прямое подключение</h3>
+            <p>Этот код работает без посредников и прокси-серверов. Данные запрашиваются напрямую с серверов OpenDota, что обеспечивает максимальную скорость и стабильность.</p>
         </div>
     </section>
 
@@ -156,14 +113,15 @@
 
         async function updateStats() {
             const id = document.getElementById('playerId').value;
-            document.getElementById('status').innerText = "Syncing...";
+            document.getElementById('status').innerText = "Connecting...";
             try {
+                // Прямой fetch без прокси!
                 const res = await fetch(`https://opendota.com{id}/wl`);
                 const data = await res.json();
                 document.getElementById('w').innerText = data.win;
                 document.getElementById('l').innerText = data.lose;
                 document.getElementById('wr').innerText = ((data.win / (data.win + data.lose)) * 100).toFixed(1) + "%";
-                document.getElementById('status').innerText = "Analytics Active";
+                document.getElementById('status').innerText = "Direct Live";
             } catch (e) { document.getElementById('status').innerText = "Offline"; }
         }
 
